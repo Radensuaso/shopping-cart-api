@@ -15,10 +15,6 @@ const Product = sequelize.define("product", {
   image: {
     type: DataTypes.TEXT,
     allowNull: false,
-    validate: {
-      isUrl: true,
-      msg: "Invalid url",
-    },
   },
 });
 
