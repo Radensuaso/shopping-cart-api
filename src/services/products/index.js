@@ -3,7 +3,7 @@ import db from "../../db/models/index.js";
 import sequelize from "sequelize";
 
 const { Op } = sequelize;
-const { Product } = db;
+const { Product, Category } = db;
 
 const router = express.Router();
 
@@ -12,16 +12,22 @@ router
   .get(async (req, res, next) => {
     try {
       const { name } = req.query;
-      const filter = req.query.name
-        ? {
-            where: {
-              name: {
-                [Op.iLike]: `${name}%`,
+      const data = await Product.findAll({
+        where: req.query.name
+          ? {
+              where: {
+                name: {
+                  [Op.iLike]: `${name}%`,
+                },
               },
-            },
-          }
-        : {};
-      const data = await Product.findAll(filter);
+            }
+          : {},
+        include: {
+          model: Category,
+          attributes: { exclude: ["id"] },
+          where: req.query.category ? { name: req.query.category } : {},
+        },
+      });
       res.send(data);
     } catch (error) {
       console.log(error);
