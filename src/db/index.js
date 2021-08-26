@@ -8,16 +8,15 @@ const sequelize = new Sequelize(PGDATABASE, PGUSERNAME, PGPASSWORD, {
   dialect: "postgres",
 });
 
-const testConnection = async () => {
+export const syncSequelize = async () => {
   try {
-    sequelize.authenticate().then(() => {
-      console.log("db is authenticated");
+    await sequelize.authenticate();
+    await sequelize.sync({
+      // force: true,
     });
   } catch (error) {
     console.log(error);
   }
 };
-
-testConnection();
 
 export default sequelize;

@@ -1,0 +1,12 @@
+Shopping Cart
+Start from yesterday's home work
+
+Add  Comments, User models to you project.
+Implement associations between the Comment, User, Products.
+Implement CRUDS for  comments, users
+In GET /products endpoint product should include categories, user and comments ( comments should include user who posted that comment, 
+HINT: you can implement nested include just same way as nested where)
+
+ 
+
+Ex: await Author.findAll({ include: { model: Article, include: Category } });

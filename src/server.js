@@ -1,5 +1,5 @@
 import express from "express";
-import db from "./db/models/index.js";
+import { syncSequelize } from "./db/index.js";
 import cors from "cors";
 import categoriesRouter from "./services/categories/index.js";
 import productsRouter from "./services/products/index.js";
@@ -14,13 +14,11 @@ app.use(express.json());
 app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
 
-db.sequelize
-  .sync()
-  .then(() => {
-    app.listen(PORT, () => console.log("🛩️ Server is running on port", PORT));
-
-    app.on("error", (error) =>
-      console.log("🙄 Server is crashed due to ", error)
-    );
-  })
-  .catch(console.log);
+app.listen(PORT, async () => {
+  try {
+    await syncSequelize();
+    console.log("🛩️ Server is running on port", PORT);
+  } catch (error) {
+    console.log(error);
+  }
+});
