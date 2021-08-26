@@ -17,11 +17,9 @@ Product.belongsTo(Category, {
 //============== Relationship between Product User and Cart ==============
 Product.belongsToMany(User, {
   through: { model: Cart, unique: false },
-  foreignKey: { allowNull: false },
 });
 User.belongsToMany(Product, {
   through: { model: Cart, unique: false },
-  foreignKey: { allowNull: false },
 }); //unique: false => to prevent creating primary key
 
 Product.hasMany(Cart); // Product.findAll({include: Cart})

@@ -45,7 +45,6 @@ router
     try {
       const data = await Category.findByPk(req.params.id);
       res.send(data);
-      res.send(data);
     } catch (error) {
       console.log(error);
       next(error);

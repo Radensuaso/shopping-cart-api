@@ -3,7 +3,7 @@ import db from "../../db/models/index.js";
 import sequelize from "sequelize";
 
 const { Op } = sequelize;
-const { Product, Category } = db;
+const { Product, Category, Review } = db;
 
 const router = express.Router();
 
@@ -26,6 +26,9 @@ router
           model: Category,
           attributes: { exclude: ["id"] },
           where: req.query.category ? { name: req.query.category } : {},
+        },
+        include: {
+          model: Review,
         },
       });
       res.send(data);

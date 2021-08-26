@@ -3,7 +3,7 @@ import db from "../../db/models/index.js";
 import sequelize from "sequelize";
 
 const { Op } = sequelize;
-const { Category } = db;
+const { Review, User } = db;
 
 const router = express.Router();
 
@@ -12,8 +12,8 @@ router
   .get(async (req, res, next) => {
     try {
       const { name } = req.query;
-      const data = await Category.findAll(
-        req.query.name
+      const data = await Review.findAll({
+        where: req.query.name
           ? {
               where: {
                 name: {
@@ -21,8 +21,9 @@ router
                 },
               },
             }
-          : {}
-      );
+          : {},
+        include: { model: User },
+      });
       res.send(data);
     } catch (error) {
       console.log(error);
@@ -31,7 +32,7 @@ router
   })
   .post(async (req, res, next) => {
     try {
-      const data = await Category.bulkCreate(req.body.category);
+      const data = await Review.create(req.body);
       res.send(data);
     } catch (error) {
       console.log(error);
@@ -43,8 +44,7 @@ router
   .route("/:id")
   .get(async (req, res, next) => {
     try {
-      const data = await Category.findByPk(req.params.id);
-      res.send(data);
+      const data = await Review.findByPk(req.params.id);
       res.send(data);
     } catch (error) {
       console.log(error);
@@ -53,7 +53,7 @@ router
   })
   .put(async (req, res, next) => {
     try {
-      const data = await Category.update(req.body, {
+      const data = await Review.update(req.body, {
         where: { id: req.params.id },
         returning: true,
       });
@@ -65,11 +65,11 @@ router
   })
   .delete(async (req, res, next) => {
     try {
-      const rows = await Category.destroy({
+      const rows = await Review.destroy({
         where: { id: req.params.id },
       });
       if (rows > 0) {
-        res.send(`Category with id: ${req.params.id} was deleted.`);
+        res.send(`Review with id: ${req.params.id} was deleted.`);
       } else {
         res.status(404).send("Not found.");
       }
