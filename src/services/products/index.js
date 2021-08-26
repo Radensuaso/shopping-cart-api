@@ -3,7 +3,7 @@ import db from "../../db/models/index.js";
 import sequelize from "sequelize";
 
 const { Op } = sequelize;
-const { Product, Category, Review } = db;
+const { Product, Category, Review, User } = db;
 
 const router = express.Router();
 
@@ -29,6 +29,7 @@ router
         },
         include: {
           model: Review,
+          include: User,
         },
       });
       res.send(data);
