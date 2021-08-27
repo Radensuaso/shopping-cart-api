@@ -13,16 +13,7 @@ router
     try {
       const { name } = req.query;
       const data = await Review.findAll({
-        where: req.query.name
-          ? {
-              where: {
-                name: {
-                  [Op.iLike]: `${name}%`,
-                },
-              },
-            }
-          : {},
-        include: { model: User },
+        include: User,
       });
       res.send(data);
     } catch (error) {

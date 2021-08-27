@@ -13,7 +13,7 @@ router
     try {
       const { name } = req.query;
       const data = await Category.findAll(
-        req.query.name
+        name
           ? {
               where: {
                 name: {
