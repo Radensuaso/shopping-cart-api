@@ -20,15 +20,14 @@ router
               },
             }
           : {},
-        include: {
-          model: Category,
-          attributes: { exclude: ["id"] },
-          where: req.query.category ? { name: req.query.category } : {},
-        },
-        include: {
-          model: Review,
-          include: User,
-        },
+        include: [
+          {
+            model: Category,
+            attributes: { exclude: ["id"] },
+            where: req.query.category ? { name: req.query.category } : {},
+          },
+          { model: Review, include: User },
+        ],
       });
       res.send(data);
     } catch (error) {
